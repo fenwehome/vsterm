@@ -8,6 +8,16 @@ On each `v*` tag, CI also syncs `README.md`, `README.zh-CN.md`, `CHANGELOG.md`,
 and `LICENSE` to the public `vesaaa/vsterm` main branch, and copies this file’s
 section for that version into the GitHub Release notes.
 
+## [1.2.10] — 2026-09-06
+
+### Fixed
+- **Remote macOS shell integration**: connecting with Shell integration enabled no longer fails with `/bin/sh: syntax error near unexpected token ;;`. macOS `/bin/sh` is bash 3.2, which treats `)` in `case pat)` inside `$(...)` as the end of the substitution. Last-login scanning now keeps `case` in a helper function, and uses BSD `last -5` (with GNU `last -n 5` as fallback).
+- **CJK font RSS**: system `.ttc` collections load a single extracted face instead of the whole file (macOS PingFang / Apple SD Gothic / Hiragino, Windows YaHei, Linux Noto CJK). On this machine PingFang dropped from ~74 MB to ~13 MB in-process.
+
+### 中文
+- **修复**：开启 Shell 集成连接远端 macOS 时，`/bin/sh`（bash 3.2）报 `syntax error near unexpected token ;;`。Last login 探测把 `case` 挪出 `$(...)`，并兼容 BSD `last -5`。
+- **修复**：系统 TTC 字体只抽取当前字重进内存，不再整包加载 PingFang / 雅黑 / Noto CJK 合集。
+
 ## [1.2.9] — 2026-09-05
 
 ### Changed
