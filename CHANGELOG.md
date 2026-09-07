@@ -8,6 +8,22 @@ On each `v*` tag, CI also syncs `README.md`, `README.zh-CN.md`, `CHANGELOG.md`,
 and `LICENSE` to the public `vesaaa/vsterm` main branch, and copies this file’s
 section for that version into the GitHub Release notes.
 
+## [Unreleased]
+
+## [1.2.11] — 2026-09-07
+
+### Added
+- **Jade loong desk pet**: original teal-gold coiled Chinese loong (Options → Effects → Desk Pet). Idle pose matches the concept (tail coiled on the left, one paw on the ground pearl); typing uses a tiny keyboard; Enter opens the mouth and the pearl flies from the snout (same projectile as the qi fighter). Free tier; position saved as `desk_pet_dragon_x` / `desk_pet_dragon_y`.
+- **SFTP external editor**: “Open with editor” downloads the remote file as raw bytes, opens a user-chosen editor, and uploads the saved bytes on disk change. No encoding or newline conversion. The editor path lives in machine-local `vsterm.conf` (next to the binary when writable, otherwise the platform config dir) and is **not** cloud-synced. First use prompts for an editor; **Options → Preferences → General** can set or clear it.
+
+### Fixed
+- **Host import encoding**: MobaXterm (and other ANSI session files) from Chinese Windows no longer show mojibake such as `Éú²ú` for `生产`. Files without a BOM are decoded as UTF-8 when valid, otherwise GB18030 / Big5 when the text looks like CJK, and Windows-1252 as a last resort. WindTerm, Xshell, FinalShell, Tabby, OpenSSH, and SecureCRT use the same decoder.
+
+### 中文
+- **新增**：桌宠「青金龙」——原创青绿金角螭龙（选项 → 特效 → 桌面宠物）。闲置盘尾在左、一爪踩地珠；打字用小键盘；回车张嘴，珠从嘴前飞出（与气功武者同一弹道）。免费；位置记在 `desk_pet_dragon_x` / `desk_pet_dragon_y`。
+- **新增**：SFTP「使用编辑器打开」按字节下载到临时文件，用用户指定的外部编辑器打开，保存后按字节回写远端（不做编码/换行转换）。编辑器路径写在本机 `vsterm.conf`（能写则放程序目录，否则平台配置目录），**不同步云端**。首次使用会选择编辑器；也可在 **选项 → 偏好设置 → 常规** 里设置或清除。
+- **修复**：从中文 Windows 的 MobaXterm（以及其他 ANSI 会话文件）导入时，`生产` 不再显示成 `Éú²ú`。无 BOM 文件优先 UTF-8，否则按 GB18030 / Big5 识别中文，最后才回退 Windows-1252。WindTerm / Xshell / FinalShell / Tabby / OpenSSH / SecureCRT 使用同一解码。
+
 ## [1.2.10] — 2026-09-06
 
 ### Fixed
