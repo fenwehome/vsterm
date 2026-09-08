@@ -10,6 +10,16 @@ section for that version into the GitHub Release notes.
 
 ## [Unreleased]
 
+## [1.2.12] — 2026-09-08
+
+### Changed
+- **Native preferences window**: Options → Preferences is now a settings center with a square icon sidebar (General / Master password / Account / Cloud sync), vertical cards, and a fixed dialog size. Title bar and shadow match the main window.
+- **External editor command line**: Preferences → General accepts a typed or pasted editor path, including extra flags (Notepad++ `-multiInst`, VS Code `--wait`, `%f` / `{file}` placeholders). A missing or crashing editor only shows an error and does not block the rest of VsTerm. Browse/Clear on that row use a 10px gap.
+
+### 中文
+- **变更**：偏好设置改为原生设置中心：左侧图标侧栏（常规 / 主密码 / 账号 / 云端同步）、纵向卡片、固定窗口尺寸；标题栏和阴影与主窗口一致。
+- **变更**：外部编辑器支持手动输入/粘贴，并可带启动参数（如 Notepad++ `-multiInst`、VS Code `--wait`，以及 `%f` / `{file}`）。程序不存在或启动失败只提示错误，不影响其它功能。浏览/清除间距为 10px。
+
 ## [1.2.11] — 2026-09-07
 
 ### Added
