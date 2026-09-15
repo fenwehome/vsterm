@@ -10,6 +10,14 @@ section for that version into the GitHub Release notes.
 
 ## [Unreleased]
 
+## [1.3.0] — 2026-09-15
+
+### Changed
+- **Release CI**: compile cache is sccache on the dedicated `R2_SCCACHE_*` bucket (`ci/sccache/`), not the CDN download bucket. v1.2.14 did not run sccache; this release is the first tag that should write cache objects. The first build is still a cold compile (`cache writes`); later tags with the same rustc/deps should hit.
+
+### 中文
+- **变更**：发版编译缓存改走独立的 `R2_SCCACHE_*` 桶（前缀 `ci/sccache/`）。v1.2.14 当时还没合进这段 workflow；这一发会第一次写入缓存（冷编译），下一发才可能命中。
+
 ## [1.2.14] — 2026-09-15
 
 ### Added
