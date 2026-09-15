@@ -10,6 +10,50 @@ section for that version into the GitHub Release notes.
 
 ## [Unreleased]
 
+## [1.2.14] — 2026-09-15
+
+### Added
+- **Software sources (toolbox)**: switch Debian/Ubuntu apt and RHEL-family yum/dnf mirrors (official, Aliyun, Tsinghua/USTC EDU, 163, Tencent, Huawei), plus optional Docker CE and Nginx *package* repos. Each apply renames originals on the host to `<name>.bak.<UTC>` (existing backups are kept) and can restore that file. OpenWrt/Merlin/Alpine/Windows are detected and left untouched.
+
+### Changed
+- **Software sources**: hide the empty VsTerm-backup hint; preview and current source files use a smaller muted monospaced panel; privilege follows a terminal `sudo -i` / `su` the same way the file panel does.
+- **About**: lists the official site [www.vsterm.com](https://www.vsterm.com) alongside GitHub.
+- **Account entitlements**: last successful `GET /v1/promo/channels` is cached on disk so the list paints immediately; a skeleton placeholder shows while the first fetch is in flight, then the live list replaces it.
+- **Buy Pro**: Preferences → Account purchase action (and the unsigned fallback row) opens [https://www.vsterm.com/vsbuy](https://www.vsterm.com/vsbuy).
+
+### Fixed
+- **SFTP vs `sudo -i`**: typing `sudo -i` no longer pops the file-panel sudo password dialog (that stole the password from the PTY). The password goes to the terminal; SFTP stays the login user until you click Elevate (or when `sudo -n` is already enough).
+- **Software sources after `sudo -i`**: Apply no longer wraps a new exec with `sudo -n` (which fails with `sudo: a password is required` because tty_tickets do not share the PTY timestamp). The script runs in the already-elevated terminal instead.
+
+### 中文
+- **变更**：软件源无备份时不再显示空说明；预览/当前源文件改为浅色小号等宽文本框；终端里 `sudo -i` 后与文件面板一样按提升后的身份探测与写入。
+- **新增**：工具箱「软件源」——切换 Debian/Ubuntu apt 与 CentOS 7 / Rocky / Alma / Stream 的 yum/dnf 镜像（官方、阿里云、清华/中科大 EDU、163、腾讯、华为），可选 Docker CE / Nginx **软件包**仓库。每次应用在服务器把原文件改名为 `原名.bak.UTC时间戳`（不覆盖已有备份），可按备份恢复。OpenWrt / 梅林 / Alpine / Windows 只提示不支持，不改写。
+- **关于**：补充官网地址 [www.vsterm.com](https://www.vsterm.com)。
+- **开通权益**：上次成功拉取的渠道列表会缓存在本地，打开账号页先渲染缓存；没有缓存时用加载占位，服务端返回后再替换。
+- **购买 Pro**：偏好配置 → 账号 可直接打开购买页，也可访问 [https://www.vsterm.com/vsbuy](https://www.vsterm.com/vsbuy)。
+- **修复**：普通用户在终端输入 `sudo -i` 时，SFTP 提权窗口不再抢走密码；密码先给终端。SFTP 保持登录用户，需要时再点文件面板的提权（免密 sudo 仍会自动跟随）。
+- **修复**：终端 `sudo -i` 成 root 后，软件源界面虽显示 root，点保存不再报 `sudo: a password is required`。写入改在已经提权的终端里执行（新的 SSH exec 仍是登录用户，且 tty_tickets 不能把 PTY 的 sudo 票据带到 exec）。
+
+## [1.2.13] — 2026-09-09
+
+### Fixed
+- **SSH to Dropbear / older Linux**: enabling Shell integration no longer fails the whole login. The OSC bootstrap is ~10 KB `exec`; Dropbear’s command cap is ~9000 bytes and a longer string often **disconnects the session** (so retrying on another channel cannot recover). VsTerm now skips that exec on Dropbear / unknown banners and opens a normal login shell. If integration still fails after a fallback, the error is **Shell integration failed** (uncheck OSC path sync) — not a generic host/port/network failure. Password auth asks the server which methods it offers. Handshake also offers NIST ECDH, `diffie-hellman-group14-sha1`, `hmac-sha1`, and AES-CBC after the modern algorithms.
+- **Account sign-in**: the verification-code field and Sign in button no longer sit on top of each other (the preferences shell zeros item spacing). They share one row with an 8px gap.
+
+### Changed
+- **Preferences window**: the dialog stays a fixed size but can be dragged by the title bar (it is no longer re-anchored to the center every frame).
+- **Preferences action spacing**: Browse/Clear, Refresh/Sign out, Upload/Download, and the three device cards now use a 2px gap (same as the session-tree search/collapse icons).
+- **Device cards**: left OS badge (Windows / macOS / Linux), right column with hostname on top and Revoke / “This device” aligned to the bottom-right.
+- **Cloud upload guard**: uploading with fewer than 5 local sessions asks for confirmation (and to verify the local config is current) so a small local tree cannot silently overwrite cloud config.
+
+### 中文
+- **修复**：部分 Linux（尤其是梅林 / OpenWrt 等 Dropbear）勾选 OSC 路径同步后会提示「连接失败」，其它 SSH 软件却能连。集成脚本约 10KB，超过 Dropbear 命令上限时会直接掐掉整条会话。现在对 Dropbear 会改走普通登录 shell，勾选 OSC 也能进终端。若集成仍然失败，会单独提示「Shell 集成失败」（取消勾选 OSC），不再误导成主机/端口/网络不通。密码登录会先询问服务器支持的认证方式；算法协商补上 NIST ECDH、`diffie-hellman-group14-sha1`、`hmac-sha1`、AES-CBC。
+- **修复**：账号页发送验证码后，验证码输入框与登录按钮不再重叠（偏好设置外壳把控件间距设为 0）；两者同一行并留 8px。
+- **变更**：偏好设置窗口尺寸仍固定，可用标题栏拖动（不再每帧钉在屏幕正中）。
+- **变更**：偏好设置里成对按钮（浏览/清除、刷新/退出登录、上传/下载）以及「我的设备」三张卡片间距统一为 2px。
+- **变更**：设备卡片改为左 OS 图标、右主机名；「撤销」与「当前设备」都放在右下角。
+- **变更**：本地服务器少于 5 台时，上传到云端会先确认（并提醒确认本地配置是最新的），避免误覆盖云端配置。
+
 ## [1.2.12] — 2026-09-08
 
 ### Changed

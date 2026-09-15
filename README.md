@@ -15,6 +15,10 @@
   professional terminal UX · modern session &amp; credential management · files and ops in one place
 </p>
 
+<p align="center">
+  <a href="https://www.vsterm.com">https://www.vsterm.com</a>
+</p>
+
 - GUI: `egui` + `eframe` (`wgpu`: Windows DX12 / macOS Metal / Linux Vulkan)
 - Terminal: `alacritty_terminal`
 - SSH: built-in `russh` (PTY, remote commands, and SFTP share one authenticated session)
@@ -91,6 +95,8 @@ VsTerm runs fully offline for SSH work. **Personal Cloud** (account login, entit
 | Personal Cloud account / devices | ✅ | ✅ |
 | Cloud sync (sessions, commands, layouts, preferences, credentials) | ✗ | ✅ |
 | Future enhancements | Not supported | Continuously supported |
+
+**Buy Pro:** sign in under **Preferences → Account**, then use the purchase action (it opens the buy page in your browser). You can also go directly to [https://www.vsterm.com/vsbuy](https://www.vsterm.com/vsbuy).
 
 #### Cloud sync &amp; data security
 

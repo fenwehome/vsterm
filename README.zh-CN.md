@@ -15,6 +15,10 @@
   专业终端体验 · 现代会话与凭据管理 · 文件传输与运维一体化
 </p>
 
+<p align="center">
+  官网：<a href="https://www.vsterm.com">https://www.vsterm.com</a>
+</p>
+
 - GUI：`egui` + `eframe`（`wgpu`：Windows DX12 / macOS Metal / Linux Vulkan）
 - 终端仿真：`alacritty_terminal`
 - SSH：内置 `russh`（终端、远程命令与 SFTP 复用同一认证会话）
@@ -91,6 +95,8 @@ VsTerm 本地 SSH 功能可完全离线使用。**Personal Cloud**（账号登�
 | Personal Cloud 账号 / 设备管理 | ✅ | ✅ |
 | 云端同步（会话、命令、布局、偏好、凭据） | ✗ | ✅ |
 | 后续增强功能 | 不支持 | 持续支持 |
+
+**购买 Pro：** 打开 **偏好配置 → 账号**，登录后即可从「开通权益」里打开购买链接。也可以直接访问官网购买页：[https://www.vsterm.com/vsbuy](https://www.vsterm.com/vsbuy)。
 
 #### 云端同步与数据安全
 
