@@ -10,6 +10,18 @@ section for that version into the GitHub Release notes.
 
 ## [Unreleased]
 
+## [1.3.1] — 2026-09-16
+
+### Added
+- **SSH client proxy**: reusable SOCKS5 / HTTP CONNECT catalog (same pattern as credentials). Add/Edit Server has one proxy row (default None); picking a proxy opens the list. Manage multiple named proxies via Options → Proxy Library. Direct TCP is unchanged; VsTerm does not use the OS / `HTTP_PROXY` system proxy for SSH. SOCKS5 sends the hostname to the proxy (remote DNS). OpenSSH `ProxyCommand` (`nc`/`ncat`/`connect`/`corkscrew`), Xshell, and FinalShell proxy fields are imported into the catalog.
+
+### Changed
+- **Proxy Library**: each saved proxy can be edited and tested (SOCKS5 method negotiation, or HTTP CONNECT). Leave the password blank when editing to keep the saved secret. List chips sit next to row-height icon actions (test / edit / delete); Credential Vault delete uses the same icon button, plus an eye to peek at a password. **Show passwords** next to Add Credential is remembered in `config.yaml` until unchecked, and reveals every secret in the vault list and in the Add Server credential picker.
+
+### 中文
+- **变更**：添加/编辑服务器只保留一行选择代理（默认「无」）；点击打开代理列表，双击选用。多条代理在「选项 → 代理库」里配置，交互与凭证库一致。代理库支持编辑与测试（SOCKS5 握手 / HTTP CONNECT）；编辑时密码留空则保留已保存密码。代理库列表加宽贴齐操作按钮，测试/编辑/删除改为与行等高的图标；凭证库列表铺满宽度，删除为图标，左侧增加查看密码（眼睛）；「添加凭证」旁可勾选「不隐藏密码」（写入配置，取消勾选前一直生效），凭证库与添加主机的凭证列表都会明文显示。
+- **新增**：会话级 SOCKS5 / HTTP CONNECT 代理（与 Termius 的 Proxy 同类）。直连行为不变；SSH **不走** 系统代理或 `HTTP_PROXY`。SOCKS5 把主机名交给代理做远程 DNS。可从 OpenSSH `ProxyCommand`、Xshell、FinalShell 导入到代理库。
+
 ## [1.3.0] — 2026-09-15
 
 ### Changed

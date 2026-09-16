@@ -74,6 +74,7 @@ Legend: `✅` built in and surfaced as a first-class workflow, `◐` supported i
 | Connection / socket monitoring panel | ✅ | ✗ | ✗ | ◐ | ✗ | ✗ | ✗ | ✗ |
 | Connect effects / motion polish | ✅ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ |
 | Desk pet | ✅ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ |
+| SSH via SOCKS5 / HTTP CONNECT proxy | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 Notes:
 
