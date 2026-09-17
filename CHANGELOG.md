@@ -10,6 +10,22 @@ section for that version into the GitHub Release notes.
 
 ## [Unreleased]
 
+## [1.3.2] — 2026-09-17
+
+### Added
+- **Inline command suggestions**: after a couple of characters, matching local history (and saved quick commands) appears in a popup above the caret. Arrow keys / click / Enter fill the remainder without running it. History is encrypted on disk (`cmdhist.enc`), never cloud-synced, and commands that look like they contain secrets are dropped.
+
+### Fixed
+- **Command history truncation**: wrapped long commands are joined when recording (toolbar History and the new suggestions), so the stored text is the full line rather than the first row. Overlong rows in both panels ellipsize instead of overflowing.
+- **CJK vs ASCII cell alignment**: each terminal glyph is optically centered in the cell using its ink (`Galley::mesh_bounds`). `LEFT_CENTER` only centers the shared layout box, so Chinese still hugged the top while digits/Latin sat mid-cell ([#22](https://github.com/vesaaa/vsterm/issues/22)). CJK is the OS UI face (PingFang SC on macOS, YaHei on Windows, Noto on Linux) — macOS does not use YaHei.
+- **Suggestion “quick” tag**: the CJK/Latin label is laid out as its own centered galley instead of sharing a LayoutJob with the monospace command, so it stays on the same baseline (Windows 125% DPI).
+
+### 中文
+- **新增**：终端输入联想。打几个字符后，本地历史（以及快捷命令）在光标上方弹出；方向键 / 点击 / Enter 填充剩余字符，不执行。历史加密保存在本机，不同步云端；像密码、令牌的命令不会入库。
+- **修复**：折行的长命令现在会拼成完整一条再记入右上角历史和新的联想；超长文本在面板里省略，不再撑破宽度。
+- **修复**：同一行里中文靠顶、英文/数字居中（[#22](https://github.com/vesaaa/vsterm/issues/22)）。按每个字形的墨水盒垂直居中，而不是居中整行 layout 盒。macOS 中文是苹方，不是雅黑。
+- **修复**：联想列表里「快捷」不再和命令错行（Win10 125% DPI 下中英混排基线不一致）。
+
 ## [1.3.1] — 2026-09-16
 
 ### Added
