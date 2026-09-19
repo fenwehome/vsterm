@@ -10,6 +10,34 @@ section for that version into the GitHub Release notes.
 
 ## [Unreleased]
 
+## [1.3.3] — 2026-09-19
+
+### Added
+- **SFTP Copy Path**: right-click a remote file or folder (list or directory tree) to copy its full path to the clipboard. Multi-select copies every selected path, one per line, so they can be pasted into a terminal or another editor.
+- **SFTP drag onto the terminal**: drag a remote row onto the terminal pane to insert the quoted path at the shell's current input. Several selected items become space-separated quoted paths; names with spaces or quotes stay one argument.
+- **Scrollback memory budget**: terminal history is now bounded by memory rather than by line count alone. A history row costs roughly 24 bytes per column, so the old 100 000-line ceiling meant ~205 MB at 80 columns but ~490 MB at 200 — per tab, with nothing watching. Preferences → General sets a per-terminal budget (32 / 64 / 128 / 256 / 512 MiB, default 64, or unlimited for the previous behaviour) and shows the live total; the terminal's Clear scrollback submenu shows the active tab's figure. The budget is re-applied when a window is widened, because the same line count costs more once rows get wider.
+
+### Changed
+- **Startup memory**: ~63 MiB less resident at idle on a machine with a system CJK UI face (282 MB → 218 MB measured on Linux; Windows and macOS always take that path). Three causes: every owned font face was resident twice because `FontData::from_owned` makes egui clone the bytes again for its rasterizer, the app loaded three CJK faces regardless of UI language, and `Vault::try_open` re-ran a 19 MiB Argon2id pass on startup and two or three more times per connect just to test whether a master password is set. Faces are now handed over as `'static`, only the primary CJK face is loaded, and the password probe is cached against the current DEK wrap.
+- **Connect latency**: opening a session no longer stalls on two or three Argon2id derivations (tens of milliseconds each).
+- **Monitor sampling**: the process table no longer resolves every process's executable path and disk usage once a second — it only shows pid, name, CPU and memory.
+
+### Fixed
+- **Imported Windows key paths** are shown by file name again on macOS and Linux. The credential picker asked `Path::file_name` for the last component, which only knows the host's separator, so a path like `C:\Users\vesaa\.ssh\id_ed25519.pem` was treated as one long name and truncated from the drive letter (`C:\Users\vesaa\.s….pem`). Xshell, FinalShell and SecureCRT imports keep `UserKey` paths verbatim, so this showed up on any cross-platform import.
+
+### Removed
+- **Korean UI language**. Existing `locale: ko` configs fall back to English. Japanese is unaffected: YaHei / PingFang SC / Noto Sans SC all cover kana, so the separate Japanese face only changed kanji from SC to JP shapes and was not worth 10–20 MB.
+
+### 中文
+- **新增**：SFTP 右键「复制路径」——文件列表或左侧目录树右键即可把完整远端路径写入剪贴板；多选时一行一条，方便贴到终端或其它编辑器。
+- **新增**：把 SFTP 文件/文件夹拖到终端区域，会在当前输入位置插入带引号的路径；多选则空格分隔，含空格或引号的名字仍是一个参数。
+- **新增**：终端回滚缓冲区改为按内存限制，而不再只看行数。一行历史约占「24 字节 × 列数」，所以原来的 10 万行上限在 80 列下是约 205 MB，200 列下就是约 490 MB —— 而且是每个标签页各算一份，此前没有任何约束。「选项 → 偏好设置 → 常规」可以设置每个终端的上限（32 / 64 / 128 / 256 / 512 MiB，默认 64，也可选不限制以保持旧行为），旁边显示所有标签页的实时合计；终端右键的「清理滚动历史」子菜单里显示当前标签页的占用。窗口拉宽后会重新收敛，因为行变宽之后同样的行数会更贵。
+- **变更**：启动常驻内存下降约 63 MiB（Linux 实测 282 MB → 218 MB；Windows 和 macOS 必然走同一条路径）。三个原因：每个系统字体面在内存里存了两份（`FontData::from_owned` 会让 egui 为光栅化再克隆一份）；不论界面语言都加载三个 CJK 字体面；`Vault::try_open` 仅仅为了判断有没有主密码，就在启动时跑一次 19 MiB 的 Argon2id，每次连接再跑两三次。现在字体面按 `'static` 交给 egui、只加载主 CJK 面、密码探测按当前密钥封装缓存。
+- **变更**：连接会话不再卡在两三次 Argon2id 推导上。
+- **变更**：监视器进程表不再每秒为每个进程解析可执行文件路径和磁盘用量。
+- **修复**：macOS / Linux 上导入的 Windows 私钥路径重新按文件名显示。凭证选择器用 `Path::file_name` 取末段，而它只认宿主平台的分隔符，于是 `C:\Users\vesaa\.ssh\id_ed25519.pem` 被当成一个超长文件名，从盘符开始截断成 `C:\Users\vesaa\.s….pem`。Xshell / FinalShell / SecureCRT 导入会原样保留 `UserKey` 路径，所以任何跨平台导入都会碰到。
+- **移除**：韩语界面。已有配置里的 `locale: ko` 会回落到英文。日语不受影响：雅黑 / 苹方 / Noto Sans SC 本身都含假名，单独的日文面只改变汉字字形（SC 形 → JP 形），不值 10–20 MB。
+
 ## [1.3.2] — 2026-09-17
 
 ### Added
