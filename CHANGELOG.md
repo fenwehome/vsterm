@@ -10,6 +10,18 @@ section for that version into the GitHub Release notes.
 
 ## [Unreleased]
 
+## [1.3.4] — 2026-09-22
+
+### Fixed
+- **Chinese paste and input**: a single-line paste is sent as the characters themselves, so the shell does not paint the line in standout. On Windows the local PowerShell keeps its colors when the console is switched to UTF-8. A remote shell that has no UTF-8 locale (including BusyBox on Merlin / Dropbear) is started in `C.UTF-8`, and bash is told to echo multibyte input, so pasted and typed Chinese show up on the command line. `echo` of the same text already worked.
+- **Copying Chinese out of the terminal**: a CJK glyph occupies two cells, and the trailing cell was copied as a space. Pasting that back produced `你 好`. On Windows PowerShell, `echo` splits on those spaces, so each character printed on its own line. The spacer cell is skipped; a space you actually typed is kept.
+- **SFTP drag onto the terminal**: a path is quoted only when it is empty or contains whitespace or shell metacharacters. `/etc/hosts` and `/home/文档` are inserted as-is. A name with spaces or quotes is still one single-quoted argument.
+
+### 中文
+- **修复**：粘贴和输入中文。单行粘贴直接送字符，不再触发整行反白。本机 PowerShell 切到 UTF-8 时保留原来的颜色。远端如果没有 UTF-8 locale（包括梅林上的 BusyBox / Dropbear），启动时补上 `C.UTF-8`，bash 也会回显多字节输入，所以粘贴和输入的中文会出现在命令行上。`echo` 打出的中文本来就是对的。
+- **修复**：从终端复制中文。汉字占两格，后半格以前被当成空格复制出去，贴回去就变成「你 好」。Windows 上 PowerShell 的 `echo` 会按这些空格拆参数，于是一个字一行。现在跳过占位格；你自己输入的空格仍会保留。
+- **修复**：拖到终端的路径只在为空、含空格或含 shell 元字符时加引号。`/etc/hosts`、`/home/文档` 原样插入；带空格或引号的名字仍然是一个单引号参数。
+
 ## [1.3.3] — 2026-09-19
 
 ### Added
