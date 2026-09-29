@@ -10,6 +10,18 @@ section for that version into the GitHub Release notes.
 
 ## [Unreleased]
 
+## [1.3.5] — 2026-09-29
+
+### Added
+- **Drag to reorder the server list**: drag a server or a folder. The top or bottom edge of a row inserts before or after that item; the middle of a folder moves the item into it. While dragging something out of a folder, a bar at the top of the list drops it at the end of the root. The order is saved in `tree.yaml`. Folders still nest at most two levels, and a folder that already has a subfolder cannot be nested further. Dragging is off while the list is filtered, because hidden rows would make the drop index wrong.
+
+### Fixed
+- **Command suggestions while recalling history**: pressing Up or Down to recall a previous command no longer opens the suggestion popup, so the next arrows stay with the shell. The popup still opens when you type, paste, or delete on the prompt. Once it is open, Up and Down still move the selection.
+
+### 中文
+- **新增**：服务器列表可以拖动排序。拖到某一行的上沿或下沿，插到该项前面或后面；拖到文件夹行中间，移进这个文件夹。从文件夹里往外拖时，列表上方会出现「放到根目录」，松手后放到根目录末尾。顺序写入 `tree.yaml`。文件夹仍然最多嵌套两层，已经有子文件夹的不能再套进别的文件夹。搜索过滤开着的时候不能拖，因为这时看到的不是完整列表。
+- **修复**：按上下键翻历史命令时不再弹出命令提示，后续的上下键继续发给终端。打字、粘贴、退格或删除时仍会出现提示；提示已经打开时，上下键仍用来选择建议。
+
 ## [1.3.4] — 2026-09-22
 
 ### Fixed
